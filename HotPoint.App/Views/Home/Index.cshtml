@@ -2,7 +2,49 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<style>
+    .cards {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .food-card{
+        border: 1px solid gray;
+        border-radius: 5px;
+    }
+
+    .flex1{
+        flex-grow: 1;
+    }
+
+    .flex2 {
+        flex-grow: 2;
+    }
+
+</style>
+
+<div class="centered">
+
+    <section class="cards">
+
+        <article class="food-card flex1">
+            <p>content for card one</p>
+        </article><!-- /card-one -->
+
+        <article class="food-card flex1">
+            <p>content for card two</p>
+        </article><!-- /card-two -->
+
+        <article class="food-card flex2">
+            <p>content for card three</p>
+        </article><!-- /card-three -->
+
+        <article class="food-card flex1">
+            <p>content for card four</p>
+        </article><!-- /card-four -->
+
+    </section>
 </div>
+
+
+
