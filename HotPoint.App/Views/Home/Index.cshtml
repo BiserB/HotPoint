@@ -2,46 +2,46 @@
     ViewData["Title"] = "Home Page";
 }
 
-<style>
-    .cards {
-        display: flex;
-        justify-content: space-between;
-    }
-
-    .food-card{
-        border: 1px solid gray;
-        border-radius: 5px;
-    }
-
-    .flex1{
-        flex-grow: 1;
-    }
-
-    .flex2 {
-        flex-grow: 2;
-    }
-
-</style>
-
 <div class="centered">
 
     <section class="cards">
 
-        <article class="food-card flex1">
+        <article class="food-card">
+            <img src="~/pics/fries.jpg" />
             <p>content for card one</p>
         </article><!-- /card-one -->
 
-        <article class="food-card flex1">
+        <article class="food-card">
+            <img src="~/pics/Rice1.jpg" />
             <p>content for card two</p>
         </article><!-- /card-two -->
 
-        <article class="food-card flex2">
+        <article class="food-card">
+            <img src="~/pics/Rice2.jpg" />
             <p>content for card three</p>
         </article><!-- /card-three -->
 
-        <article class="food-card flex1">
+        <article class="food-card">
+            <img src="~/pics/Rice3.jpg" />
             <p>content for card four</p>
         </article><!-- /card-four -->
+
+    </section>
+
+    <section class="cards">
+
+        <article class="food-card">
+            <p>content for card one</p>
+        </article><!-- /card-one -->
+
+        <article class="food-card">
+            <p>content for card two</p>
+        </article><!-- /card-two -->
+
+        <article class="food-card">
+            <p>content for card three</p>
+        </article><!-- /card-three -->
+
 
     </section>
 </div>
