@@ -13,4 +13,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\HotPoint.Entities\HotPoint.Entities.csproj" />
+  </ItemGroup>
+
 </Project>

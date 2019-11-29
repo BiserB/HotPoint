@@ -5,13 +5,32 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using HotPoint.App.Models;
+using HotPoint.Entities;
+using HotPoint.Data;
 
 namespace HotPoint.App.Controllers
 {
     public class HomeController : Controller
     {
+        private HotPointDbContext db;
+
+        public HomeController(HotPointDbContext db)
+        {
+            this.db = db;
+        }
+
         public IActionResult Index()
         {
+            Recipe recipe = new Recipe()
+            {
+                Directions = "Index created recipe",
+                Notes = "Demo recipe"
+            };
+
+            db.Recipes.Add(recipe);
+
+            db.SaveChanges();
+
             return View();
         }
 
@@ -25,5 +44,6 @@ namespace HotPoint.App.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
     }
 }
