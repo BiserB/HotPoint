@@ -83,6 +83,12 @@ body {
     }
 }
 
-.cards img{
-    max-width: 100%;
+.cards img {
+    display: block;
+    border: 0;
+    height: 80%;
+    width: 100%;
+    cursor: pointer;
+    object-fit: cover;
 }
+
