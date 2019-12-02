@@ -1,6 +1,8 @@
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace HotPoint.App.Models
+namespace HotPoint.Models.ViewModels
 {
     public class ErrorViewModel
     {

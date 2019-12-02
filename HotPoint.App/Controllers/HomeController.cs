@@ -4,9 +4,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using HotPoint.App.Models;
 using HotPoint.Entities;
 using HotPoint.Data;
+using HotPoint.Models.ViewModels;
 
 namespace HotPoint.App.Controllers
 {

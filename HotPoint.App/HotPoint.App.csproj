@@ -21,6 +21,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\HotPoint.Data\HotPoint.Data.csproj" />
+    <ProjectReference Include="..\HotPoint.Models\HotPoint.Models.csproj" />
+    <ProjectReference Include="..\HotPoint.Services\HotPoint.Services.csproj" />
   </ItemGroup>
 
 </Project>
