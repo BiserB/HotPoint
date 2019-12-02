@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using HotPoint.Data;
+using HotPoint.Entities;
 
 namespace HotPoint.App
 {
@@ -37,8 +38,9 @@ namespace HotPoint.App
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddDefaultIdentity<IdentityUser>()
+            services.AddIdentity<AppUser, IdentityRole>()
                 .AddDefaultUI(UIFramework.Bootstrap4)
+                .AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<HotPointDbContext>();
 
             services.Configure<IdentityOptions>(options =>
@@ -57,7 +59,6 @@ namespace HotPoint.App
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace HotPoint.Entities
 {
-    public class Customer : IdentityUser
+    public class AppUser : IdentityUser
     {
         public DateTime CreatedOn { get; set; }
 

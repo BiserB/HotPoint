@@ -14,7 +14,7 @@ namespace HotPoint.Data
         
         public DbSet<Category> FoodCategories { get; set; }
 
-        public DbSet<Customer> Customers { get; set; }
+        public DbSet<AppUser> Customers { get; set; }
 
         public DbSet<Product> Products { get; set; }
 
