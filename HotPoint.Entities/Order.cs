@@ -9,7 +9,7 @@ namespace HotPoint.Entities
         public int Id { get; set; }
 
         public string CustomerId { get; set; }
-
+        
         public AppUser Customer { get; set; }
 
         public DateTime Timestamp { get; set; }

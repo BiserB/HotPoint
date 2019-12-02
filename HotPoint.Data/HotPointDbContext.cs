@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HotPoint.Data
 {
-    public class HotPointDbContext : IdentityDbContext
+    public class HotPointDbContext : IdentityDbContext<AppUser>
     {
         public HotPointDbContext(DbContextOptions<HotPointDbContext> options)
             : base(options)
@@ -44,10 +44,13 @@ namespace HotPoint.Data
             mb.Entity<Product>().HasOne(p => p.Recipe).WithOne(r => r.Product).HasForeignKey<Product>(p => p.RecipeId);
             mb.Entity<Product>().HasOne(p => p.Category).WithMany(c => c.Products).HasForeignKey(p => p.CategoryId);
             mb.Entity<Product>().HasOne(p => p.Supplier).WithMany(s => s.Products).HasForeignKey(p => p.SupplierId);
+            mb.Entity<Product>().Property(o => o.Price).HasColumnType("decimal(5,2)");
 
             mb.Entity<Order>().HasKey(o => o.Id);
             mb.Entity<Order>().HasOne(o => o.Status).WithMany(os => os.Orders).HasForeignKey(s => s.StatusId);
             mb.Entity<Order>().HasOne(o => o.Customer).WithMany(c => c.Orders).HasForeignKey(o => o.CustomerId);
+            mb.Entity<Order>().Property(o => o.CustomerId).IsRequired();
+            mb.Entity<Order>().Property(o => o.AmountTotal).HasColumnType("decimal(5,2)");
 
             mb.Entity<OrderProduct>().HasKey(op => new { op.OrderId, op.ProductId });
 
