@@ -14,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using HotPoint.Data;
 using HotPoint.Entities;
+using HotPoint.App.Utils;
 
 namespace HotPoint.App
 {
@@ -64,7 +65,7 @@ namespace HotPoint.App
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
+                app.UseDatabaseErrorPage();                
             }
             else
             {
@@ -72,6 +73,8 @@ namespace HotPoint.App
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            DbSeeder.SeedRoles(app);
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
