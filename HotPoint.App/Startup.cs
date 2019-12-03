@@ -75,6 +75,7 @@ namespace HotPoint.App
             }
 
             DbSeeder.SeedRoles(app);
+            DbSeeder.SeedUsers(app);
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

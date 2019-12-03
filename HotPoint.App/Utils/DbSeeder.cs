@@ -1,4 +1,5 @@
 ﻿using HotPoint.Data;
+using HotPoint.Entities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
@@ -37,6 +38,30 @@ namespace HotPoint.App.Utils
                             throw new InvalidOperationException($"Creation of {role} role failed.");
                         }
                     }
+                }
+            }
+        }
+
+        public static async void SeedUsers(IApplicationBuilder app)
+        {
+            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                var userManager = serviceScope.ServiceProvider.GetService<UserManager<AppUser>>();
+
+                var admin = await userManager.FindByNameAsync(RoleType.Administrator);
+
+                if (admin == null)
+                {
+                    admin = new AppUser()
+                    {
+                        UserName = "admin",
+                        Email = "admin@hotpoint.bg",
+                        EmailConfirmed = true
+                    };
+
+                    await userManager.CreateAsync(admin, "1111");
+
+                    await userManager.AddToRoleAsync(admin, RoleType.Administrator);
                 }
             }
         }
