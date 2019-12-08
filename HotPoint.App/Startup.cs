@@ -15,6 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using HotPoint.Data;
 using HotPoint.Entities;
 using HotPoint.App.Utils;
+using HotPoint.Services;
 
 namespace HotPoint.App
 {
@@ -57,6 +58,8 @@ namespace HotPoint.App
                 };
             });
 
+            services.AddScoped<AdminService>();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
@@ -76,6 +79,7 @@ namespace HotPoint.App
 
             DbSeeder.SeedRoles(app);
             DbSeeder.SeedUsers(app);
+            DbSeeder.SeedInitalData(app);
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

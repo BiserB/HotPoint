@@ -4,4 +4,9 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\HotPoint.Data\HotPoint.Data.csproj" />
+    <ProjectReference Include="..\HotPoint.Models\HotPoint.Models.csproj" />
+  </ItemGroup>
+
 </Project>

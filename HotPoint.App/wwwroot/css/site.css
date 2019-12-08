@@ -1,6 +1,10 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
 
+.body {
+    white-space: nowrap;
+}
+
 a.navbar-brand {
   white-space: normal;
   text-align: center;
@@ -92,3 +96,19 @@ body {
     object-fit: cover;
 }
 
+/*----- Dashboard -----*/
+
+.count-top {
+    white-space: nowrap;
+    font-size: 13px;
+    font-weight: 400;
+    color: #73879C;
+    line-height: 1.471;
+    font-family: "Helvetica Neue",Roboto,Arial,"Droid Sans",sans-serif;
+}
+
+.count {
+    font-size: 40px;
+    line-height: 47px;
+    font-weight: 600;
+}

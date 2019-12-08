@@ -1,0 +1,36 @@
+﻿@model DashboardViewModel
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+
+<div class="row">
+    <div class="col-md-3 col-sm-6">
+        <span class="count-top">
+            <i class="fa fa-user"></i>
+            Total Users
+        </span>
+        <div class="count">@Model.UsersCount</div>
+    </div>
+    <div class="col-md-3 col-sm-6">
+        <span class="count-top">
+            <i class="fa fa-user"></i>
+            Total Products
+        </span>
+        <div class="count">@Model.ProductsCount</div>
+    </div>
+    <div class="col-md-3 col-sm-6">
+        <span class="count-top">
+            <i class="fa fa-user"></i>
+            Total Orders
+        </span>
+        <div class="count">@Model.OrdersCount</div>
+    </div>
+    <div class="col-md-3 col-sm-6">
+        <span class="count-top">
+            <i class="fa fa-user"></i>
+            Total Recipes
+        </span>
+        <div class="count">@Model.RecipesCount</div>
+    </div>
+</div>

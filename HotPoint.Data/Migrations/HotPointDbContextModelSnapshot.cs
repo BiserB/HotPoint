@@ -217,6 +217,8 @@ namespace HotPoint.Data.Migrations
 
                     b.Property<string>("Directions");
 
+                    b.Property<string>("Name");
+
                     b.Property<string>("Notes");
 
                     b.Property<string>("NutritionFacts");
