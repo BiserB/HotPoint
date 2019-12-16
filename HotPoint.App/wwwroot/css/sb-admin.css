@@ -70,6 +70,10 @@ body {
   background-color: #fff;
 }
 
+.top-nav {
+    height: 50px;
+}
+
 [tabindex="-1"]:focus {
   outline: 0 !important;
 }
@@ -4417,19 +4421,22 @@ input[type="button"].btn-block {
 }
 
 .navbar {
-  position: relative;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: justify;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-  padding: 0.5rem 1rem;
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 0;
+    box-shadow: 1px 1px 3px #999;
 }
 
 .navbar > .container,
@@ -4815,11 +4822,11 @@ input[type="button"].btn-block {
 }
 
 .navbar-dark .navbar-brand {
-  color: #fff;
+  color: #777;
 }
 
 .navbar-dark .navbar-brand:hover, .navbar-dark .navbar-brand:focus {
-  color: #fff;
+  color: #777;
 }
 
 .navbar-dark .navbar-nav .nav-link {

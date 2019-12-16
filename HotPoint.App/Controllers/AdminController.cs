@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using HotPoint.App.Utils;
+using HotPoint.App.Utils.Constants;
 using HotPoint.Models.InputModels;
 using HotPoint.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -40,5 +40,6 @@ namespace HotPoint.App.Controllers
 
             return View();
         }
+
     }
 }

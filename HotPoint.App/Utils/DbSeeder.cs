@@ -1,11 +1,16 @@
-﻿using HotPoint.Data;
+﻿using HotPoint.App.Utils.Constants;
+using HotPoint.Data;
 using HotPoint.Entities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace HotPoint.App.Utils
@@ -74,33 +79,33 @@ namespace HotPoint.App.Utils
 
                 SeedSuppliers(db);
                 SeedFoodCategories(db);
-                SeedIngredientTypes(db);
-                SeedIngredients(db);
+                SeedEntity<IngredientType>(db, Constants.App.IngredientTypesFilepath);
+                SeedEntity<Ingredient>(db, Constants.App.IngredientsFilepath);
                 SeedRecipes(db);
             }
         }
 
         private static void SeedSuppliers(HotPointDbContext db)
         {
-            var internalSupplier = db.SupplierTypes.FirstOrDefault(st => st.Name == Supplier.Internal);
+            var internalSupplier = db.SupplierTypes.FirstOrDefault(st => st.Name == Constants.SupplierType.Internal);
 
             if (internalSupplier == null)
             {
                 db.SupplierTypes.Add(
-                    new SupplierType()
+                    new Entities.SupplierType()
                     {
-                        Name = Supplier.Internal
+                        Name = Constants.SupplierType.Internal
                     });
             }
 
-            var externalSupplier = db.SupplierTypes.FirstOrDefault(st => st.Name == Supplier.External);
+            var externalSupplier = db.SupplierTypes.FirstOrDefault(st => st.Name == Constants.SupplierType.External);
 
             if (externalSupplier == null)
             {
                 db.SupplierTypes.Add(
-                    new SupplierType()
+                    new Entities.SupplierType()
                     {
-                        Name = Supplier.External
+                        Name = Constants.SupplierType.External
                     });
             }
 
@@ -139,27 +144,6 @@ namespace HotPoint.App.Utils
             db.SaveChanges();
         }
 
-        private static void SeedIngredientTypes(HotPointDbContext db)
-        {
-            string[] types = new string[]
-            {
-                "hypoallergenic",
-                "allergenic"
-            };
-
-            foreach (var type in types)
-            {
-                if (!db.IngredientTypes.Any(t => t.Description == type))
-                {
-                    db.IngredientTypes.Add(new IngredientType()
-                    {
-                        Description = type
-                    });
-                }
-            }
-
-            db.SaveChanges();
-        }
 
         private static void SeedIngredients(HotPointDbContext db)
         {
@@ -179,14 +163,14 @@ namespace HotPoint.App.Utils
                     db.Ingredients.Add(new Ingredient()
                     {
                         Name = ingredient,
-                        IngredientType = 1
+                        TypeId = 1
                     });
                 }
             }
 
             db.SaveChanges();
         }
-                
+
         private static void SeedRecipes(HotPointDbContext db)
         {
             string[] recipes = new string[]
@@ -213,12 +197,39 @@ namespace HotPoint.App.Utils
                             RecipeId = recipe.Id,
                             IngredientId = ingredient.Id
                         });
-                    }       
+                    }
                 }
             }
 
             db.SaveChanges();
         }
-        
+
+        private static void SeedEntity<E>(HotPointDbContext db, string filePath) where E: SeededEntity
+        {
+            string execPath = Assembly.GetExecutingAssembly().Location;
+
+            string basePath = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(execPath), Constants.App.PathCorrection));
+
+            string fullPath = Path.Combine(basePath, filePath);
+
+            var jsonData = File.ReadAllText(fullPath);
+
+            var entityData = JsonConvert.DeserializeObject<E[]>(jsonData);
+
+            var dbSet = db.Set<E>();
+
+            if (!dbSet.Any())
+            {
+                dbSet.AddRange(entityData);
+            }           
+
+            db.SaveChanges();
+        }
+
+    }
+
+    public class Demo
+    {
+
     }
 }
