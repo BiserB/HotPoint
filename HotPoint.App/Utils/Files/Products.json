@@ -1,0 +1,34 @@
+[
+  {
+    "Name": "Телешко филе 'Оскар'",
+    "Description": "Вкусно, топло телешко филе",
+    "Price": 23.50,
+    "CategoryId": 2,
+    "RecipeId": 1,
+    "SupplierId": 2
+  },
+  {
+    "Name": "Бифтек по немски",
+    "Description": "Превъзходен",
+    "Price": 21.50,
+    "CategoryId": 2,
+    "RecipeId": 2,
+    "SupplierId": 1
+  },
+  {
+    "Name": "Пилешко филе 'Тандури'",
+    "Description": "Поднасяме със сос от кисело мляко",
+    "Price": 18.50,
+    "CategoryId": 2,
+    "RecipeId": 3,
+    "SupplierId": 1
+  },
+  {
+    "Name": "Адана кебап",
+    "Description": "Класически Адана Кебап",
+    "Price": 19.99,
+    "CategoryId": 2,
+    "RecipeId": 4,
+    "SupplierId": 3
+  }
+]

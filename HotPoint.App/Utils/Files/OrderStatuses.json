@@ -1,0 +1,22 @@
+[
+  {
+    "Id": 1,
+    "Description": "Чакаща"
+  },
+  {
+    "Id": 2,
+    "Description": "Обработва се"
+  },
+  {
+    "Id": 3,
+    "Description": "Изпълнена"
+  },
+  {
+    "Id": 4,
+    "Description": "Проблемна"
+  },
+  {
+    "Id": 5,
+    "Description": "Завършена"
+  }
+]

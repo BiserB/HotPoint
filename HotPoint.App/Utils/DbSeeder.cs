@@ -77,132 +77,22 @@ namespace HotPoint.App.Utils
             {
                 var db = serviceScope.ServiceProvider.GetService<HotPointDbContext>();
 
-                SeedSuppliers(db);
-                SeedFoodCategories(db);
                 SeedEntity<IngredientType>(db, Constants.App.IngredientTypesFilepath);
                 SeedEntity<Ingredient>(db, Constants.App.IngredientsFilepath);
-                SeedRecipes(db);
+
+                SeedEntity<SupplierType>(db, Constants.App.SupplierTypeFilepath);
+                SeedEntity<Supplier>(db, Constants.App.SuppliersFilepath);
+
+                SeedEntity<Category>(db, Constants.App.CategoriesFilepath);
+                SeedEntity<Recipe>(db, Constants.App.RecipesFilepath);
+
+                SeedEntity<RecipeIngredient>(db, Constants.App.RecipeIngredientsFilepath);
+
+                SeedEntity<Product>(db, Constants.App.ProductsFilepath);
+
+                SeedEntity<OrderStatus>(db, Constants.App.OrderStatusesFilepath);
             }
-        }
-
-        private static void SeedSuppliers(HotPointDbContext db)
-        {
-            var internalSupplier = db.SupplierTypes.FirstOrDefault(st => st.Name == Constants.SupplierType.Internal);
-
-            if (internalSupplier == null)
-            {
-                db.SupplierTypes.Add(
-                    new Entities.SupplierType()
-                    {
-                        Name = Constants.SupplierType.Internal
-                    });
-            }
-
-            var externalSupplier = db.SupplierTypes.FirstOrDefault(st => st.Name == Constants.SupplierType.External);
-
-            if (externalSupplier == null)
-            {
-                db.SupplierTypes.Add(
-                    new Entities.SupplierType()
-                    {
-                        Name = Constants.SupplierType.External
-                    });
-            }
-
-            db.SaveChanges();
-        }
-
-        private static void SeedFoodCategories(HotPointDbContext db)
-        {
-            string[] categoryNames = new string[]
-            {
-                "Bread",
-                "Breakfast",
-                "Pasta",
-                "Pizza",
-                "Soups",
-                "Salads",
-                "Vegetables",
-                "Rice & Beans",
-                "Seafood",
-                "Meats",
-                "Sandwiches",
-                "Deserts",
-            };
-
-            foreach (var category in categoryNames)
-            {
-                if (!db.FoodCategories.Any(fc => fc.Name == category))
-                {
-                    db.FoodCategories.Add(new Category()
-                    {
-                        Name = category
-                    });
-                }
-            }
-
-            db.SaveChanges();
-        }
-
-
-        private static void SeedIngredients(HotPointDbContext db)
-        {
-            string[] ingredients = new string[]
-            {
-                "spaghetti",
-                "salt",
-                "egg",
-                "bacon",
-                "garlic"
-            };
-
-            foreach (var ingredient in ingredients)
-            {
-                if (!db.Ingredients.Any(i => i.Name == ingredient))
-                {
-                    db.Ingredients.Add(new Ingredient()
-                    {
-                        Name = ingredient,
-                        TypeId = 1
-                    });
-                }
-            }
-
-            db.SaveChanges();
-        }
-
-        private static void SeedRecipes(HotPointDbContext db)
-        {
-            string[] recipes = new string[]
-            {
-                "Spaghetti Carbonara"
-            };
-
-            foreach (var recipeName in recipes)
-            {
-                if (!db.Recipes.Any(r => r.Name == recipeName))
-                {
-                    var recipe = new Recipe()
-                    {
-                        Name = recipeName,
-                        Directions = ""
-                    };
-
-                    db.Recipes.Add(recipe);
-
-                    foreach (var ingredient in db.Ingredients)
-                    {
-                        db.RecipeIngredient.Add(new RecipeIngredient()
-                        {
-                            RecipeId = recipe.Id,
-                            IngredientId = ingredient.Id
-                        });
-                    }
-                }
-            }
-
-            db.SaveChanges();
-        }
+        }        
 
         private static void SeedEntity<E>(HotPointDbContext db, string filePath) where E: SeededEntity
         {
@@ -225,11 +115,5 @@ namespace HotPoint.App.Utils
 
             db.SaveChanges();
         }
-
-    }
-
-    public class Demo
-    {
-
     }
 }
