@@ -2,13 +2,13 @@
 
 namespace HotPoint.Entities
 {
-    public class Ingredient
+    public class Ingredient: SeededEntity
     {
         public int Id { get; set; }
 
         public string Name { get; set; }
 
-        public int IngredientType { get; set; }
+        public int TypeId { get; set; }
 
         public IngredientType Type { get; set; }
 

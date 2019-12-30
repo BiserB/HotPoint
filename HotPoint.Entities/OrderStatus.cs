@@ -4,7 +4,7 @@ using System.Text;
 
 namespace HotPoint.Entities
 {
-    public class OrderStatus
+    public class OrderStatus : SeededEntity
     {
         public int Id { get; set; }
 

@@ -5,7 +5,8 @@
     "Price": 23.50,
     "CategoryId": 2,
     "RecipeId": 1,
-    "SupplierId": 2
+    "SupplierId": 2,
+    "StatusId": 1
   },
   {
     "Name": "Бифтек по немски",
@@ -13,7 +14,8 @@
     "Price": 21.50,
     "CategoryId": 2,
     "RecipeId": 2,
-    "SupplierId": 1
+    "SupplierId": 1,
+    "StatusId": 1
   },
   {
     "Name": "Пилешко филе 'Тандури'",
@@ -21,7 +23,8 @@
     "Price": 18.50,
     "CategoryId": 2,
     "RecipeId": 3,
-    "SupplierId": 1
+    "SupplierId": 1,
+    "StatusId": 1
   },
   {
     "Name": "Адана кебап",
@@ -29,6 +32,16 @@
     "Price": 19.99,
     "CategoryId": 2,
     "RecipeId": 4,
-    "SupplierId": 3
+    "SupplierId": 3,
+    "StatusId": 1
+  },
+  {
+    "Name": "Салата от червено цвекло и портокали",
+    "Description": "Салата от червено цвекло и портокали",
+    "Price": 10.99,
+    "CategoryId": 4,
+    "RecipeId": 5,
+    "SupplierId": 3,
+    "StatusId": 1
   }
 ]

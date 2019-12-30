@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HotPoint.Entities
 {
-     public class OrderProduct
+     public class OrderProduct : SeededEntity
     {
         [Column(Order = 1)]
         public int OrderId { get; set; }

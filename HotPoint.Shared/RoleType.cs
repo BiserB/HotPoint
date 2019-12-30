@@ -1,5 +1,8 @@
-﻿
-namespace HotPoint.App.Utils.Constants
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace HotPoint.Shared
 {
     public static class RoleType
     {

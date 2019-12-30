@@ -2,7 +2,7 @@
 
 namespace HotPoint.Entities
 {
-    public class SupplierType
+    public class SupplierType : SeededEntity
     {
         public int Id { get; set; }
 

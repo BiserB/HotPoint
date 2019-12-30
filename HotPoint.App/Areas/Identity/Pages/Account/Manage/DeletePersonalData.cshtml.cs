@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using HotPoint.Entities;
+using HotPoint.Shared;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -65,6 +66,14 @@ namespace HotPoint.App.Areas.Identity.Pages.Account.Manage
                     ModelState.AddModelError(string.Empty, "Password not correct.");
                     return Page();
                 }
+            }
+
+            var isManager = await _userManager.IsInRoleAsync(user, RoleType.Manager);
+
+            if (isManager)
+            {
+                ModelState.AddModelError(string.Empty, "Cannot delete Manager account!");
+                return Page();
             }
 
             var result = await _userManager.DeleteAsync(user);

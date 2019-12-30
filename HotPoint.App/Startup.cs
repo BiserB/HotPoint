@@ -56,9 +56,12 @@ namespace HotPoint.App
                     RequireNonAlphanumeric = false,
                     RequireUppercase = false
                 };
+
             });
 
             services.AddScoped<AdminService>();
+            services.AddScoped<ManagerService>();
+            services.AddScoped<CustomerService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
@@ -77,9 +80,7 @@ namespace HotPoint.App
                 app.UseHsts();
             }
 
-            DbSeeder.SeedRoles(app);
-            DbSeeder.SeedUsers(app);
-            DbSeeder.SeedInitalData(app);
+            DbSeeder.SeedAppData(app);
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

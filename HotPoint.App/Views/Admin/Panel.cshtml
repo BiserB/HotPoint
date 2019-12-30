@@ -1,0 +1,83 @@
+﻿
+@model AdminPanelViewModel
+@{
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+    ViewData["Title"] = "Админ панел";
+}
+
+    <!-- Breadcrumbs-->
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="#">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">Overview</li>
+    </ol>
+
+    <div class="row">
+        <div class="col-md-3 col-sm-6">
+            <a href="manageUsers">
+                <span class="count-top">
+                    <i class="fa fa-user"></i>
+                    Потребители общо
+                </span>
+                <div class="count">@Model.UsersCount</div>
+            </a>            
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <span class="count-top">
+                <i class="fa fa-tag"></i>
+                Продукти общо
+            </span>
+            <div class="count">@Model.ProductsCount</div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <span class="count-top">
+                <i class="fa fa-user-circle"></i>
+                Персонал общо
+            </span>
+            <div class="count">@Model.InternalSuppliers</div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <span class="count-top">
+                <i class="fa fa-truck"></i>
+                Външни доставчици общо
+            </span>
+            <div class="count">@Model.ExternalSuppliers</div>
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-md-3 col-sm-6">
+            <span class="count-top">
+                <i class="fa fa-shopping-bag"></i>
+                Поръчки общо
+            </span>
+            <div class="count">@Model.OrdersCount</div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <span class="count-top">
+                <i class="fa fa-book"></i>
+                Рецепти общо
+            </span>
+            <div class="count">@Model.RecipesCount</div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <span class="count-top">
+                <i class="fa fa-list"></i>
+                Хранителни категории
+            </span>
+            <div class="count">@Model.FoodCategoriesCount</div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <span class="count-top">
+                <i class="fa fa-lemon"></i>
+                Съставки общо
+            </span>
+            <div class="count">@Model.IngredientsCount</div>
+        </div>
+    </div>
+
+
+
+
+

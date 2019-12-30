@@ -2,21 +2,22 @@
 
 namespace HotPoint.Data.Migrations
 {
-    public partial class AddRecipeName : Migration
+    public partial class AddPhotoNameToProduct : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
-                name: "Name",
-                table: "Recipes",
+                name: "PhotoName",
+                table: "Products",
+                maxLength: 256,
                 nullable: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Name",
-                table: "Recipes");
+                name: "PhotoName",
+                table: "Products");
         }
     }
 }

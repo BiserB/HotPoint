@@ -21,16 +21,6 @@ namespace HotPoint.App.Controllers
 
         public IActionResult Index()
         {
-            Recipe recipe = new Recipe()
-            {
-                Directions = "Index created recipe",
-                Notes = "Demo recipe"
-            };
-
-            db.Recipes.Add(recipe);
-
-            db.SaveChanges();
-
             return View();
         }
 

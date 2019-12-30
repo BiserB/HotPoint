@@ -1,0 +1,52 @@
+﻿@model CustomerSelectionViewModel
+@{
+    ViewData["Title"] = "Selection";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    int cardsPerRow = 4;
+    int indexOnRow = 0;
+}
+
+@*<div class="row">
+    @for (int i = 0; i < Model.Foods.Count; i++)
+    {
+        if (indexOnRow++ == cardsPerRow)
+        {
+            indexOnRow = 0;
+        @:</div><div class="row">
+        }
+        <div class="col-sm-12 col-md-4 col-lg-3">
+            <div class="card">
+                <img src="~/pics/fries.jpg" class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-title">@Model.Foods[i]</h5>
+                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">Last updated 3 mins ago</small>
+                </div>
+            </div>
+        </div>
+    }
+</div>*@
+
+<div class="row">
+    @for (int i = 0; i < Model.Foods.Count; i++)
+    {
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="card">
+                <img src="~/pics/fries.jpg" class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-title">@Model.Foods[i]</h5>
+                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">Last updated 3 mins ago</small>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+

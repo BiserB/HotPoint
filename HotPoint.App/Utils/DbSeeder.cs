@@ -1,6 +1,7 @@
-﻿using HotPoint.App.Utils.Constants;
+﻿
 using HotPoint.Data;
 using HotPoint.Entities;
+using HotPoint.Shared;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -17,61 +18,75 @@ namespace HotPoint.App.Utils
 {
     public static class DbSeeder
     {
-        public static async void SeedRoles(IApplicationBuilder app)
+        public static async void SeedAppData(IApplicationBuilder app)
         {
             using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
-                var roleManager = serviceScope.ServiceProvider.GetService<RoleManager<IdentityRole>>();
+                await SeedRoles(serviceScope);
 
-                var roles = new IdentityRole[]
+                await SeedAdmin(serviceScope);
+
+                SeedInitalData(app);
+            }
+        }
+
+        private static async Task SeedRoles(IServiceScope serviceScope)
+        {
+            var roleManager = serviceScope.ServiceProvider.GetService<RoleManager<IdentityRole>>();
+
+            var roles = new List<IdentityRole>();
+
+            var fields = typeof(RoleType).GetFields();
+
+            foreach (var field in fields)
+            {
+                var newRole = new IdentityRole(field.GetValue(null).ToString());
+
+                roles.Add(newRole);
+            }
+
+            foreach (var role in roles)
+            {
+                var roleExists = await roleManager.RoleExistsAsync(role.Name);
+
+                if (!roleExists)
                 {
-                    new IdentityRole(RoleType.Customer),
-                    new IdentityRole(RoleType.Manager),
-                    new IdentityRole(RoleType.Administrator),
-                };
+                    var creation = await roleManager.CreateAsync(role);
 
-                foreach (var role in roles)
-                {
-                    var roleDoesNotExist = !await roleManager.RoleExistsAsync(role.Name);
-
-                    if (roleDoesNotExist)
+                    if (!creation.Succeeded)
                     {
-                        var creation = await roleManager.CreateAsync(role);
-
-                        if (!creation.Succeeded)
-                        {
-                            throw new InvalidOperationException($"Creation of {role} role failed.");
-                        }
+                        throw new InvalidOperationException($"Creation of {role} role failed.");
                     }
                 }
             }
         }
 
-        public static async void SeedUsers(IApplicationBuilder app)
+        private static async Task SeedAdmin(IServiceScope serviceScope)
         {
-            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            var userManager = serviceScope.ServiceProvider.GetService<UserManager<AppUser>>();
+
+            string adminEmail = "admin@hotpoint.bg";
+
+            var admin = await userManager.FindByEmailAsync(adminEmail);
+
+            if (admin == null)
             {
-                var userManager = serviceScope.ServiceProvider.GetService<UserManager<AppUser>>();
-
-                var admin = await userManager.FindByNameAsync(RoleType.Administrator);
-
-                if (admin == null)
+                admin = new AppUser()
                 {
-                    admin = new AppUser()
-                    {
-                        UserName = "admin@hotpoint.bg",
-                        Email = "admin@hotpoint.bg",
-                        EmailConfirmed = true
-                    };
+                    UserName = adminEmail,
+                    Email = adminEmail,
+                    CreatedOn = DateTime.Now,
+                    EmailConfirmed = true
+                };
 
-                    await userManager.CreateAsync(admin, "1111");
+                await userManager.CreateAsync(admin, "1111");
 
-                    await userManager.AddToRoleAsync(admin, RoleType.Administrator);
-                }
+                await userManager.AddToRoleAsync(admin, RoleType.Administrator);
             }
+
         }
 
-        public static void SeedInitalData(IApplicationBuilder app)
+        private static void SeedInitalData(IApplicationBuilder app)
         {
             using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
@@ -88,14 +103,23 @@ namespace HotPoint.App.Utils
 
                 SeedEntity<RecipeIngredient>(db, Constants.App.RecipeIngredientsFilepath);
 
+                SeedEntity<ProductStatus>(db, Constants.App.ProductStatusesFilepath);
                 SeedEntity<Product>(db, Constants.App.ProductsFilepath);
 
-                SeedEntity<OrderStatus>(db, Constants.App.OrderStatusesFilepath);
+                SeedOrderStatuses(db);
+                //SeedEntity<OrderStatus>(db, Constants.App.OrderStatusesFilepath);
             }
-        }        
+        }
 
-        private static void SeedEntity<E>(HotPointDbContext db, string filePath) where E: SeededEntity
+        private static void SeedEntity<E>(HotPointDbContext db, string filePath) where E : SeededEntity
         {
+            var dbSet = db.Set<E>();
+
+            if (dbSet.Any())
+            {
+                return;
+            }
+
             string execPath = Assembly.GetExecutingAssembly().Location;
 
             string basePath = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(execPath), Constants.App.PathCorrection));
@@ -106,12 +130,28 @@ namespace HotPoint.App.Utils
 
             var entityData = JsonConvert.DeserializeObject<E[]>(jsonData);
 
-            var dbSet = db.Set<E>();
+            dbSet.AddRange(entityData);
 
-            if (!dbSet.Any())
+            db.SaveChanges();
+        }
+
+        private static void SeedOrderStatuses(HotPointDbContext db)
+        {
+            var statuses = Shared.OrderStatus.GetAll<Shared.OrderStatus>().OrderBy(s => s.Id);
+
+            foreach (var status in statuses)
             {
-                dbSet.AddRange(entityData);
-            }           
+                if (!db.OrderStatuses.Any(os => os.Id == status.Id))
+                {
+                    var newOrderStatus = new Entities.OrderStatus()
+                    {
+                        Id = status.Id,
+                        Description = status.Name
+                    };
+
+                    db.OrderStatuses.Add(newOrderStatus);
+                }
+            }
 
             db.SaveChanges();
         }

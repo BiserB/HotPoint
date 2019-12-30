@@ -9,8 +9,5 @@ namespace HotPoint.Models.InputModels
     {
         [Required]
         public string UserId { get; set; }
-
-        [Required]
-        public string UserRoleId { get; set; }
     }
 }

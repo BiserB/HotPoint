@@ -57,9 +57,8 @@ namespace HotPoint.Data.Migrations
                 name: "FoodCategories",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: true)
+                    Id = table.Column<int>(nullable: false),
+                    Name = table.Column<string>(maxLength: 256, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -70,9 +69,8 @@ namespace HotPoint.Data.Migrations
                 name: "IngredientTypes",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Description = table.Column<string>(nullable: true)
+                    Id = table.Column<int>(nullable: false),
+                    Name = table.Column<string>(maxLength: 256, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -83,13 +81,24 @@ namespace HotPoint.Data.Migrations
                 name: "OrderStatuses",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Description = table.Column<string>(nullable: true)
+                    Id = table.Column<int>(nullable: false),
+                    Description = table.Column<string>(maxLength: 256, nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_OrderStatuses", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProductStatuses",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false),
+                    Name = table.Column<string>(maxLength: 256, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductStatuses", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -98,6 +107,7 @@ namespace HotPoint.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(maxLength: 256, nullable: false),
                     ProductId = table.Column<int>(nullable: true),
                     Directions = table.Column<string>(nullable: true),
                     NutritionFacts = table.Column<string>(nullable: true),
@@ -112,9 +122,8 @@ namespace HotPoint.Data.Migrations
                 name: "SupplierTypes",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: true),
+                    Id = table.Column<int>(nullable: false),
+                    Name = table.Column<string>(maxLength: 256, nullable: false),
                     Notes = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -234,9 +243,8 @@ namespace HotPoint.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: true),
-                    IngredientType = table.Column<int>(nullable: false),
-                    TypeId = table.Column<int>(nullable: true)
+                    Name = table.Column<string>(maxLength: 256, nullable: false),
+                    TypeId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -246,7 +254,7 @@ namespace HotPoint.Data.Migrations
                         column: x => x.TypeId,
                         principalTable: "IngredientTypes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -255,7 +263,7 @@ namespace HotPoint.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CustomerId = table.Column<string>(nullable: false),
+                    CustomerId = table.Column<string>(nullable: true),
                     Timestamp = table.Column<DateTime>(nullable: false),
                     AmountTotal = table.Column<decimal>(type: "decimal(5,2)", nullable: false),
                     StatusId = table.Column<int>(nullable: false)
@@ -268,7 +276,7 @@ namespace HotPoint.Data.Migrations
                         column: x => x.CustomerId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.SetNull);
                     table.ForeignKey(
                         name: "FK_Orders_OrderStatuses_StatusId",
                         column: x => x.StatusId,
@@ -283,8 +291,9 @@ namespace HotPoint.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(maxLength: 256, nullable: false),
                     TypeId = table.Column<int>(nullable: false),
-                    Name = table.Column<string>(nullable: true)
+                    IsDeleted = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -332,7 +341,8 @@ namespace HotPoint.Data.Migrations
                     Price = table.Column<decimal>(type: "decimal(5,2)", nullable: false),
                     CategoryId = table.Column<int>(nullable: false),
                     RecipeId = table.Column<int>(nullable: false),
-                    SupplierId = table.Column<int>(nullable: false)
+                    SupplierId = table.Column<int>(nullable: false),
+                    StatusId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -342,19 +352,25 @@ namespace HotPoint.Data.Migrations
                         column: x => x.CategoryId,
                         principalTable: "FoodCategories",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Products_Recipes_RecipeId",
                         column: x => x.RecipeId,
                         principalTable: "Recipes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Products_ProductStatuses_StatusId",
+                        column: x => x.StatusId,
+                        principalTable: "ProductStatuses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Products_Suppliers_SupplierId",
                         column: x => x.SupplierId,
                         principalTable: "Suppliers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -421,9 +437,27 @@ namespace HotPoint.Data.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_FoodCategories_Name",
+                table: "FoodCategories",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Ingredients_Name",
+                table: "Ingredients",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Ingredients_TypeId",
                 table: "Ingredients",
                 column: "TypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_IngredientTypes_Name",
+                table: "IngredientTypes",
+                column: "Name",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_OrderProducts_ProductId",
@@ -441,6 +475,12 @@ namespace HotPoint.Data.Migrations
                 column: "StatusId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_OrderStatuses_Description",
+                table: "OrderStatuses",
+                column: "Description",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Products_CategoryId",
                 table: "Products",
                 column: "CategoryId");
@@ -452,9 +492,20 @@ namespace HotPoint.Data.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Products_StatusId",
+                table: "Products",
+                column: "StatusId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Products_SupplierId",
                 table: "Products",
                 column: "SupplierId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProductStatuses_Name",
+                table: "ProductStatuses",
+                column: "Name",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_RecipeIngredient_IngredientId",
@@ -462,9 +513,27 @@ namespace HotPoint.Data.Migrations
                 column: "IngredientId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Recipes_Name",
+                table: "Recipes",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Suppliers_Name",
+                table: "Suppliers",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Suppliers_TypeId",
                 table: "Suppliers",
                 column: "TypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SupplierTypes_Name",
+                table: "SupplierTypes",
+                column: "Name",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -513,6 +582,9 @@ namespace HotPoint.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Recipes");
+
+            migrationBuilder.DropTable(
+                name: "ProductStatuses");
 
             migrationBuilder.DropTable(
                 name: "Suppliers");

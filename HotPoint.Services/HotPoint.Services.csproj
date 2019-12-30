@@ -7,6 +7,7 @@
   <ItemGroup>
     <ProjectReference Include="..\HotPoint.Data\HotPoint.Data.csproj" />
     <ProjectReference Include="..\HotPoint.Models\HotPoint.Models.csproj" />
+    <ProjectReference Include="..\HotPoint.Shared\HotPoint.Shared.csproj" />
   </ItemGroup>
 
 </Project>

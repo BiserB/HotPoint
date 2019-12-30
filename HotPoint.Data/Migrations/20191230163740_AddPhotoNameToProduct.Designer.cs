@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotPoint.Data.Migrations
 {
     [DbContext(typeof(HotPointDbContext))]
-    [Migration("20191202202223_Initial")]
-    partial class Initial
+    [Migration("20191230163740_AddPhotoNameToProduct")]
+    partial class AddPhotoNameToProduct
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -86,13 +86,16 @@ namespace HotPoint.Data.Migrations
 
             modelBuilder.Entity("HotPoint.Entities.Category", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<int>("Id");
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(256);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("FoodCategories");
                 });
@@ -103,13 +106,16 @@ namespace HotPoint.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("IngredientType");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(256);
 
-                    b.Property<string>("Name");
-
-                    b.Property<int?>("TypeId");
+                    b.Property<int>("TypeId");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.HasIndex("TypeId");
 
@@ -118,13 +124,16 @@ namespace HotPoint.Data.Migrations
 
             modelBuilder.Entity("HotPoint.Entities.IngredientType", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<int>("Id");
 
-                    b.Property<string>("Description");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(256);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("IngredientTypes");
                 });
@@ -138,8 +147,7 @@ namespace HotPoint.Data.Migrations
                     b.Property<decimal>("AmountTotal")
                         .HasColumnType("decimal(5,2)");
 
-                    b.Property<string>("CustomerId")
-                        .IsRequired();
+                    b.Property<string>("CustomerId");
 
                     b.Property<int>("StatusId");
 
@@ -169,13 +177,16 @@ namespace HotPoint.Data.Migrations
 
             modelBuilder.Entity("HotPoint.Entities.OrderStatus", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<int>("Id");
 
-                    b.Property<string>("Description");
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(256);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Description")
+                        .IsUnique();
 
                     b.ToTable("OrderStatuses");
                 });
@@ -192,10 +203,15 @@ namespace HotPoint.Data.Migrations
 
                     b.Property<string>("Name");
 
+                    b.Property<string>("PhotoName")
+                        .HasMaxLength(256);
+
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(5,2)");
 
                     b.Property<int>("RecipeId");
+
+                    b.Property<int>("StatusId");
 
                     b.Property<int>("SupplierId");
 
@@ -206,9 +222,27 @@ namespace HotPoint.Data.Migrations
                     b.HasIndex("RecipeId")
                         .IsUnique();
 
+                    b.HasIndex("StatusId");
+
                     b.HasIndex("SupplierId");
 
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("HotPoint.Entities.ProductStatus", b =>
+                {
+                    b.Property<int>("Id");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(256);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("ProductStatuses");
                 });
 
             modelBuilder.Entity("HotPoint.Entities.Recipe", b =>
@@ -219,6 +253,10 @@ namespace HotPoint.Data.Migrations
 
                     b.Property<string>("Directions");
 
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(256);
+
                     b.Property<string>("Notes");
 
                     b.Property<string>("NutritionFacts");
@@ -226,6 +264,9 @@ namespace HotPoint.Data.Migrations
                     b.Property<int?>("ProductId");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("Recipes");
                 });
@@ -249,11 +290,18 @@ namespace HotPoint.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Name");
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(256);
 
                     b.Property<int>("TypeId");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.HasIndex("TypeId");
 
@@ -262,15 +310,18 @@ namespace HotPoint.Data.Migrations
 
             modelBuilder.Entity("HotPoint.Entities.SupplierType", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<int>("Id");
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(256);
 
                     b.Property<string>("Notes");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("SupplierTypes");
                 });
@@ -389,7 +440,8 @@ namespace HotPoint.Data.Migrations
                 {
                     b.HasOne("HotPoint.Entities.IngredientType", "Type")
                         .WithMany()
-                        .HasForeignKey("TypeId");
+                        .HasForeignKey("TypeId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("HotPoint.Entities.Order", b =>
@@ -397,7 +449,7 @@ namespace HotPoint.Data.Migrations
                     b.HasOne("HotPoint.Entities.AppUser", "Customer")
                         .WithMany("Orders")
                         .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("HotPoint.Entities.OrderStatus", "Status")
                         .WithMany("Orders")
@@ -423,17 +475,22 @@ namespace HotPoint.Data.Migrations
                     b.HasOne("HotPoint.Entities.Category", "Category")
                         .WithMany("Products")
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("HotPoint.Entities.Recipe", "Recipe")
                         .WithOne("Product")
                         .HasForeignKey("HotPoint.Entities.Product", "RecipeId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("HotPoint.Entities.ProductStatus", "Status")
+                        .WithMany("Products")
+                        .HasForeignKey("StatusId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("HotPoint.Entities.Supplier", "Supplier")
                         .WithMany("Products")
                         .HasForeignKey("SupplierId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("HotPoint.Entities.RecipeIngredient", b =>

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HotPoint.Entities
 {
-    public class RecipeIngredient
+    public class RecipeIngredient : SeededEntity
     {
         [Column(Order = 1)]
         public int RecipeId { get; set; }

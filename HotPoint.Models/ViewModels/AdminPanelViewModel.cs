@@ -4,7 +4,7 @@ using System.Text;
 
 namespace HotPoint.Models.ViewModels
 {
-    public class DashboardViewModel
+    public class AdminPanelViewModel
     {
         public int UsersCount { get; set; }
 

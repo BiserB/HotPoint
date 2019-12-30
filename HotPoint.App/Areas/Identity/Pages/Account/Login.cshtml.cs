@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using HotPoint.Entities;
+using HotPoint.Shared;
 
 namespace HotPoint.App.Areas.Identity.Pages.Account
 {
@@ -17,11 +18,13 @@ namespace HotPoint.App.Areas.Identity.Pages.Account
     public class LoginModel : PageModel
     {
         private readonly SignInManager<AppUser> _signInManager;
+        private readonly UserManager<AppUser> userManager;
         private readonly ILogger<LoginModel> _logger;
 
-        public LoginModel(SignInManager<AppUser> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager, ILogger<LoginModel> logger)
         {
             _signInManager = signInManager;
+            this.userManager = userManager;
             _logger = logger;
         }
 
@@ -81,9 +84,38 @@ namespace HotPoint.App.Areas.Identity.Pages.Account
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: true);
+                
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
+
+                    var appUser = await _signInManager.UserManager.FindByEmailAsync(Input.Email);
+
+                    appUser.LoggedOn = DateTime.Now;
+
+                    await _signInManager.UserManager.UpdateAsync(appUser);
+
+                    bool isCustomer = await _signInManager.UserManager.IsInRoleAsync(appUser, RoleType.Customer);
+                    
+                    if (isCustomer)
+                    {
+                        return LocalRedirect("/customer/selection");
+                    }
+
+                    bool isManager = await _signInManager.UserManager.IsInRoleAsync(appUser, RoleType.Manager);
+
+                    if (isManager)
+                    {
+                        return LocalRedirect("/manager/panel");
+                    }
+
+                    bool isAdmin = await _signInManager.UserManager.IsInRoleAsync(appUser, RoleType.Administrator);
+
+                    if (isAdmin)
+                    {
+                        return LocalRedirect("/admin/panel");
+                    }
+
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)

@@ -1,0 +1,98 @@
+﻿
+@model ManageUsersViewModel
+@{
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+    ViewData["Title"] = "Управление потребители";
+}
+
+<div>
+    <h2>Клиенти</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">No</th>
+                <th scope="col">Email</th>
+                <th scope="col">Created On</th>
+                <th scope="col">Logged On</th>
+                <th scope="col">Organization</th>
+                <th scope="col">Роля</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{int count = 1;}
+            @foreach (var user in Model.Customers)
+            {
+                <tr>
+                    <th scope="row">@count</th>
+                    <td>@user.Email</td>
+                    <td>@user.CreatedOn</td>
+                    <td>@user.LoggedOn</td>
+                    <td>@user.Organization</td>
+                    <td>
+                        <a href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-ellipsis-h"></i>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <form asp-controller="admin" asp-action="AddManagerRole" method="post">
+                                <input name="userId" value=@user.Id type="hidden" />
+                                <button type="submit" class="dropdown-item">
+                                    Направи мениджър
+                                </button>
+                            </form>  
+                        </div>
+                    </td>
+                </tr>
+                count += 1;
+            }
+
+        </tbody>
+    </table>
+
+    <h2>Персонал</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">No</th>
+                <th scope="col">Email</th>
+                <th scope="col">Created On</th>
+                <th scope="col">Logged On</th>
+                <th scope="col">Organization</th>
+                <th scope="col">Роля</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{int cnt = 1;}
+            @foreach (var user in Model.Managers)
+            {
+                <tr>
+                    <th scope="row">@cnt</th>
+                    <td>@user.Email</td>
+                    <td>@user.CreatedOn</td>
+                    <td>@user.LoggedOn</td>
+                    <td>@user.Organization</td>
+                    <td>
+                        <a href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-ellipsis-h"></i>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <form asp-controller="admin" asp-action="RemoveFromManagerRole" method="post">
+                                <input name="userId" value=@user.Id type="hidden" />
+                                <button type="submit" class="dropdown-item">
+                                    Направи клиент
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                cnt += 1;
+            }
+
+        </tbody>
+    </table>
+
+</div>
+
+
+
+
+

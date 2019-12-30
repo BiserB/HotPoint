@@ -4,11 +4,13 @@ using System.Text;
 
 namespace HotPoint.Entities
 {
-    public class Product
+    public class Product : SeededEntity
     {
         public int Id { get; set; }
 
         public string Name { get; set; }
+
+        public string PhotoName { get; set; }
 
         public string Description { get; set; }
 
@@ -25,5 +27,9 @@ namespace HotPoint.Entities
         public int SupplierId { get; set; }
 
         public Supplier Supplier { get; set; }
+
+        public int StatusId { get; set; }
+
+        public ProductStatus Status { get; set; }
     }
 }
