@@ -1,9 +1,6 @@
 ﻿using HotPoint.Data;
 using HotPoint.Models.ViewModels;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace HotPoint.Services
 {
@@ -16,11 +13,19 @@ namespace HotPoint.Services
             this.db = db;
         }
 
-        public CustomerSelectionViewModel GetCustomerSelectionModel()
+        public CustomerPanelViewModel GetCustomerPanelModel()
         {
-            var model = new CustomerSelectionViewModel();
+            var model = new CustomerPanelViewModel();
 
-            model.Foods = this.db.Products.Select(p => p.Name).ToList();
+            model.Products = this.db.Products.Select(p => new ProductViewModel()
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    PhotoName = p.PhotoName,
+                    Description = p.Description,
+                    Price = p.Price
+                })
+                .ToList();
 
             return model;
         }

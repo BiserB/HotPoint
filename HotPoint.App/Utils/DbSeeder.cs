@@ -34,16 +34,9 @@ namespace HotPoint.App.Utils
         {
             var roleManager = serviceScope.ServiceProvider.GetService<RoleManager<IdentityRole>>();
 
-            var roles = new List<IdentityRole>();
-
-            var fields = typeof(RoleType).GetFields();
-
-            foreach (var field in fields)
-            {
-                var newRole = new IdentityRole(field.GetValue(null).ToString());
-
-                roles.Add(newRole);
-            }
+            var roles = typeof(RoleType)
+                        .GetFields()
+                        .Select(f => new IdentityRole(f.GetValue(null).ToString()));
 
             foreach (var role in roles)
             {
@@ -81,9 +74,10 @@ namespace HotPoint.App.Utils
 
                 await userManager.CreateAsync(admin, "1111");
 
-                await userManager.AddToRoleAsync(admin, RoleType.Administrator);
-            }
+                var roles = typeof(RoleType).GetFields().Select(f => f.GetValue(null).ToString());
 
+                await userManager.AddToRolesAsync(admin, roles);
+            }
         }
 
         private static void SeedInitalData(IApplicationBuilder app)
@@ -155,5 +149,6 @@ namespace HotPoint.App.Utils
 
             db.SaveChanges();
         }
+
     }
 }

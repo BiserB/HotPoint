@@ -2,6 +2,7 @@
   {
     "Name": "Телешко филе 'Оскар'",
     "Description": "Вкусно, топло телешко филе",
+    "PhotoName": "teleshko-file-oskar",
     "Price": 23.50,
     "CategoryId": 2,
     "RecipeId": 1,
@@ -11,6 +12,7 @@
   {
     "Name": "Бифтек по немски",
     "Description": "Превъзходен",
+    "PhotoName": "biftek-po-nemski",
     "Price": 21.50,
     "CategoryId": 2,
     "RecipeId": 2,
@@ -20,6 +22,7 @@
   {
     "Name": "Пилешко филе 'Тандури'",
     "Description": "Поднасяме със сос от кисело мляко",
+    "PhotoName": "pileshko-file-tanduri",
     "Price": 18.50,
     "CategoryId": 2,
     "RecipeId": 3,
@@ -29,6 +32,7 @@
   {
     "Name": "Адана кебап",
     "Description": "Класически Адана Кебап",
+    "PhotoName": "adana-kebap",
     "Price": 19.99,
     "CategoryId": 2,
     "RecipeId": 4,
@@ -38,6 +42,7 @@
   {
     "Name": "Салата от червено цвекло и портокали",
     "Description": "Салата от червено цвекло и портокали",
+    "PhotoName": "salata-cveklo-portokal",
     "Price": 10.99,
     "CategoryId": 4,
     "RecipeId": 5,

@@ -63,7 +63,7 @@ namespace HotPoint.App.Areas.Identity.Pages.Account
 
             if (this._signInManager.IsSignedIn(this.User))
             {
-                return RedirectToAction("index", "home");
+                return RedirectToAction("panel", "customer");
             }
 
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
@@ -99,7 +99,7 @@ namespace HotPoint.App.Areas.Identity.Pages.Account
                     
                     if (isCustomer)
                     {
-                        return LocalRedirect("/customer/selection");
+                        return LocalRedirect("/customer/panel");
                     }
 
                     bool isManager = await _signInManager.UserManager.IsInRoleAsync(appUser, RoleType.Manager);

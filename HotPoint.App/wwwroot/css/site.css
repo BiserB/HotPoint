@@ -16,6 +16,16 @@ a.navbar-brand {
 }
 
 /***** Cards *****/
+
+.card-img-top {
+    height: 32vh;
+    object-fit: cover;
+}
+
+.card{
+    margin-top: 5px;
+}
+
 .cards {
     display: flex;
     flex-wrap: wrap;
@@ -31,7 +41,6 @@ a.navbar-brand {
 }
 
 @media screen and (min-width: 40em) {
-
     .food-card {
         max-width: calc(50% - 1em);
     }
@@ -52,8 +61,82 @@ a.navbar-brand {
     object-fit: cover;
 }
 
-/*----- Panel -----*/
+.shopping-cart{
+    cursor: pointer;
+}
 
+#cart-badge {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    background-color: lightgreen;
+    border-radius: 50%;
+    text-align: center;
+}
+
+.badge-value {
+    font-size: 24px;
+    line-height: 1.2;
+}
+
+.img-container {
+    position: relative;
+    width: 100%;
+}
+
+.img-btn {
+    position: absolute;
+    bottom: 5%;
+    right: 3%;
+    color: white;
+    display: flex;
+}
+
+.box-btn {
+    display: block;
+    margin-top: auto;
+    width: 50px;
+}
+
+.product-cart-count {
+    display: inline-block;
+    margin-top: auto;
+    width: 42px;
+    height: 42px;
+    background: white;
+    font-size: 24px;
+    font-weight: 900;
+    color: darkgrey;
+}
+
+.small-product-cart-count {
+    display: inline-block;
+    margin-top: auto;
+    width: 42px;
+    height: 26px;
+    background: white;
+    font-size: 24px;
+    font-weight: 900;
+    color: darkgrey;
+}
+
+.add-small-box{
+    width: 42px;
+    height: 36px;
+    cursor: pointer;
+    text-align: center;
+    line-height: 1.8;
+}
+
+.add-big-box, .remove-big-box {
+    width: 42px;
+    height: 36px;
+    cursor: pointer;
+    text-align: center;
+    line-height: 1.8;
+}
+
+/*----- Panel -----*/
 .count-top {
     white-space: nowrap;
     font-size: 13px;

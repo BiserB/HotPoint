@@ -16,6 +16,8 @@ namespace HotPoint.Entities
 
         public decimal Price { get; set; }
 
+        public decimal AvailableQty { get; set; }
+
         public int CategoryId { get; set; }
 
         public Category Category { get; set; }
@@ -31,5 +33,7 @@ namespace HotPoint.Entities
         public int StatusId { get; set; }
 
         public ProductStatus Status { get; set; }
+
+        public List<OrderProduct> Orders { get; set; }
     }
 }

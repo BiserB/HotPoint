@@ -1,10 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿
+using HotPoint.App.Utils.Constants;
+using HotPoint.App.Utils.Helpers;
+using HotPoint.Entities;
+using HotPoint.Models.CommonModels;
+using HotPoint.Models.InputModels;
 using HotPoint.Services;
 using HotPoint.Shared;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HotPoint.App.Controllers
@@ -12,18 +15,60 @@ namespace HotPoint.App.Controllers
     [Authorize(Roles = RoleType.Customer)]
     public class CustomerController : Controller
     {
-        private readonly CustomerService service;
+        private readonly CustomerService customerService;
+        private readonly ShoppingService shoppingService;
+        private readonly UserManager<AppUser> userManager;
 
-        public CustomerController(CustomerService service)
+        public CustomerController(CustomerService customerService, 
+            ShoppingService shoppingService,
+            UserManager<AppUser> userManager)
         {
-            this.service = service;
+            this.customerService = customerService;
+            this.shoppingService = shoppingService;
+            this.userManager = userManager;
         }
 
-        public IActionResult Selection()
+        [HttpGet]
+        public IActionResult Panel()
         {
-            var model = this.service.GetCustomerSelectionModel();
+            string cartKey = SessionKeys.Cart + this.userManager.GetUserId(this.User);
+
+            var shoppingCart = this.HttpContext.Session.GetObjectFromJson<ShoppingCart>(cartKey);
+
+            if (shoppingCart == null)
+            {
+                shoppingCart = new ShoppingCart();                
+            }
+
+            var model = this.customerService.GetCustomerPanelModel();
+
+            model.ShoppingCart = shoppingCart;            
+
+            this.HttpContext.Session.SetObjectAsJson(cartKey, shoppingCart);
 
             return View(model);
         }
+
+
+        //[HttpGet]
+        //public IActionResult Checkout()
+        //{
+        //    var shoppingCart = this.HttpContext.Session.GetObjectFromJson<ShoppingCart>(SessionKeys.Cart);
+
+        //    if (shoppingCart == null)
+        //    {
+        //        shoppingCart = new ShoppingCart();
+        //    }
+
+        //    this.shoppingService.AddToCart(item, shoppingCart);
+
+        //    var model = this.customerService.GetCustomerPanelModel();
+
+        //    model.ShoppingCart = shoppingCart;
+
+        //    this.HttpContext.Session.SetObjectAsJson(SessionKeys.Cart, shoppingCart);
+
+        //    return View("Panel", model);
+        //}
     }
 }

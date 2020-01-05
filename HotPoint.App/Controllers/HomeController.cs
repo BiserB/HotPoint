@@ -7,18 +7,13 @@ using Microsoft.AspNetCore.Mvc;
 using HotPoint.Entities;
 using HotPoint.Data;
 using HotPoint.Models.ViewModels;
+using HotPoint.App.Utils.Filters;
 
 namespace HotPoint.App.Controllers
 {
     public class HomeController : Controller
     {
-        private HotPointDbContext db;
-
-        public HomeController(HotPointDbContext db)
-        {
-            this.db = db;
-        }
-
+        [RedirectLoggedIn]
         public IActionResult Index()
         {
             return View();

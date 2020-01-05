@@ -20,6 +20,6 @@ namespace HotPoint.Entities
 
         public OrderStatus Status { get; set; }
 
-        public List<OrderProduct> OrderProducts { get; set; }
+        public List<OrderProduct> Products { get; set; }
     }
 }

@@ -166,7 +166,15 @@ namespace HotPoint.Data.Migrations
 
                     b.Property<int>("ProductId");
 
-                    b.HasKey("OrderId", "ProductId");
+                    b.Property<int>("PackageId");
+
+                    b.Property<int>("Count")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(1);
+
+                    b.HasKey("OrderId", "ProductId", "PackageId");
+
+                    b.HasIndex("PackageId");
 
                     b.HasIndex("ProductId");
 
@@ -189,11 +197,37 @@ namespace HotPoint.Data.Migrations
                     b.ToTable("OrderStatuses");
                 });
 
+            modelBuilder.Entity("HotPoint.Entities.Package", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Material")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(256);
+
+                    b.Property<decimal>("Volume")
+                        .HasColumnType("decimal(5,2)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Packages");
+                });
+
             modelBuilder.Entity("HotPoint.Entities.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<decimal>("AvailableQty")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("decimal(5,2)")
+                        .HasDefaultValue(0m);
 
                     b.Property<int>("CategoryId");
 
@@ -458,12 +492,17 @@ namespace HotPoint.Data.Migrations
             modelBuilder.Entity("HotPoint.Entities.OrderProduct", b =>
                 {
                     b.HasOne("HotPoint.Entities.Order", "Order")
-                        .WithMany("OrderProducts")
+                        .WithMany("Products")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade);
 
+                    b.HasOne("HotPoint.Entities.Package", "Package")
+                        .WithMany("OrderProducts")
+                        .HasForeignKey("PackageId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("HotPoint.Entities.Product", "Product")
-                        .WithMany()
+                        .WithMany("Orders")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

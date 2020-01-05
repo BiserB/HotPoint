@@ -4,8 +4,8 @@ using System.Text;
 
 namespace HotPoint.Models.ViewModels
 {
-    public class CustomerSelectionViewModel
+    public class BoxViewModel
     {
-        public List<string> Foods { get; set; }
+        public string Name { get; set; }
     }
 }

@@ -37,6 +37,8 @@ namespace HotPoint.Data
 
         public DbSet<ProductStatus> ProductStatuses { get; set; }
 
+        public DbSet<Package> Packages { get; set; }
+
         protected override void OnModelCreating(ModelBuilder mb)
         {
             mb.Entity<Category>().HasKey(c => c.Id);
@@ -50,6 +52,7 @@ namespace HotPoint.Data
             mb.Entity<Product>().HasOne(p => p.Supplier).WithMany(s => s.Products).HasForeignKey(p => p.SupplierId).OnDelete(DeleteBehavior.Restrict);
             mb.Entity<Product>().HasOne(p => p.Status).WithMany(ps => ps.Products).OnDelete(DeleteBehavior.Restrict);
             mb.Entity<Product>().Property(o => o.Price).HasColumnType("decimal(5,2)").IsRequired();
+            mb.Entity<Product>().Property(o => o.AvailableQty).HasColumnType("decimal(5,2)").IsRequired().HasDefaultValue(0);
             mb.Entity<Product>().Property(o => o.PhotoName).HasMaxLength(256);
 
             mb.Entity<Order>().HasKey(o => o.Id);
@@ -57,7 +60,8 @@ namespace HotPoint.Data
             mb.Entity<Order>().HasOne(o => o.Customer).WithMany(c => c.Orders).HasForeignKey(o => o.CustomerId).OnDelete(DeleteBehavior.SetNull);
             mb.Entity<Order>().Property(o => o.AmountTotal).HasColumnType("decimal(5,2)");
 
-            mb.Entity<OrderProduct>().HasKey(op => new { op.OrderId, op.ProductId });
+            mb.Entity<OrderProduct>().HasKey(op => new { op.OrderId, op.ProductId, op.PackageId });
+            mb.Entity<OrderProduct>().Property(op => op.Count).IsRequired().HasDefaultValue(1);
 
             mb.Entity<OrderStatus>().HasKey(os => os.Id);
             mb.Entity<OrderStatus>().Property(os => os.Id).ValueGeneratedNever();
@@ -93,6 +97,11 @@ namespace HotPoint.Data
             mb.Entity<ProductStatus>().Property(ps => ps.Id).ValueGeneratedNever();
             mb.Entity<ProductStatus>().HasIndex(ps => ps.Name).IsUnique();
             mb.Entity<ProductStatus>().Property(ps => ps.Name).IsRequired().HasMaxLength(256);
+
+            mb.Entity<Package>().HasKey(p => p.Id);
+            mb.Entity<Package>().Property(p => p.Name).IsRequired().HasMaxLength(256);
+            mb.Entity<Package>().Property(p => p.Material).HasMaxLength(256);
+            mb.Entity<Package>().Property(p => p.Volume).HasColumnType("decimal(5,2)");
 
             base.OnModelCreating(mb);
         }

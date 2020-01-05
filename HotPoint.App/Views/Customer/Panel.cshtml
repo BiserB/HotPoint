@@ -1,0 +1,88 @@
+﻿@model CustomerPanelViewModel
+@{
+    ViewData["Title"] = "Клиентски панел";
+    Layout = "~/Views/Shared/Layout.cshtml";
+}
+
+<div class="row">
+    <div class="ml-auto shopping-cart" data-toggle="modal" data-target="#exampleModal">
+        <i class="fa fa-shopping-cart fa-2x"></i>
+        <span id="cart-badge">
+            <span class="badge-value" data-value="@Model.ShoppingCart.Items.Count">@Model.ShoppingCart.Items.Count</span>
+            <span class="badge-surround"></span>
+        </span>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="cart-content">
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+
+    @foreach (var product in Model.Products)
+    {
+        Item cartItem = Model.ShoppingCart.Items.FirstOrDefault(item => item.ProductId == product.Id);
+        int productCount = cartItem != null ? cartItem.Quantity : 0;
+        string countAsString = productCount != 0 ? productCount.ToString() : "";
+
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="card">
+                <div class="img-container">
+                    <img src="~/pics/@(product.PhotoName).jpg" class="card-img-top">
+                    <div class="img-btn">
+
+                        @*<div class="box-btn">
+                                <div class="add-small-box" data-id="@product.Id">
+                                    <i class="fa fa-angle-up fa-3x"></i>
+                                </div>
+                                <div class="small-product-cart-count" id="small-@product.Id" data-value="@productCount">
+                                    <span>&nbsp;</span>
+                                    @countAsString
+                                </div>
+                            </div>*@
+
+                        <div class="box-btn">
+                            <div class="add-big-box" data-id="@product.Id">
+                                <i class="fa fa-angle-up fa-3x"></i>
+                            </div>
+                            <div class="product-cart-count" id="@product.Id" data-value="@productCount">
+                                <span>&nbsp;</span>
+                                @countAsString
+                            </div>
+                            <div class="remove-big-box" data-id="@product.Id">
+                                <i class="fa fa-angle-down fa-3x"></i>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">@product.Name</h5>
+                    <p class="card-text">This is a description:@product.Description</p>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script src="~/js/shopping-cart.js"></script>
+}
