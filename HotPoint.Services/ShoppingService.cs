@@ -1,5 +1,7 @@
 ﻿using HotPoint.Data;
+using HotPoint.Entities;
 using HotPoint.Models.CommonModels;
+using HotPoint.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -63,6 +65,34 @@ namespace HotPoint.Services
                 shoppingCart.Items.Remove(currentItem);
             }
 
+        }
+
+        public Dictionary<ProductViewModel, int> Checkout(ShoppingCart shoppingCart)
+        {
+            var cartProducts = new Dictionary<ProductViewModel, int>();
+
+            foreach (var item in shoppingCart.Items)
+            {
+                var currentProduct = this.db.Products.FirstOrDefault(p => p.Id == item.ProductId);
+
+                if (currentProduct == null)
+                {
+                    throw new ArgumentException("Invalid shopping cart item");
+                }
+
+                var model = new ProductViewModel()
+                {
+                    Id = currentProduct.Id,
+                    Name = currentProduct.Name,
+                    PhotoName = currentProduct.PhotoName,
+                    Description = currentProduct.Description,
+                    Price = currentProduct.Price
+                };
+
+                cartProducts.Add(model, item.Quantity);
+            }
+
+            return cartProducts;
         }
     }
 }

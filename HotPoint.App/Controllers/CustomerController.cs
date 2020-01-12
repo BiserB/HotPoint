@@ -49,26 +49,16 @@ namespace HotPoint.App.Controllers
             return View(model);
         }
 
+        [HttpGet]
+        public IActionResult Checkout()
+        {
+            string cartKey = SessionKeys.Cart + this.userManager.GetUserId(this.User);
 
-        //[HttpGet]
-        //public IActionResult Checkout()
-        //{
-        //    var shoppingCart = this.HttpContext.Session.GetObjectFromJson<ShoppingCart>(SessionKeys.Cart);
+            var shoppingCart = this.HttpContext.Session.GetObjectFromJson<ShoppingCart>(cartKey);
 
-        //    if (shoppingCart == null)
-        //    {
-        //        shoppingCart = new ShoppingCart();
-        //    }
+            var model = this.shoppingService.Checkout(shoppingCart);
 
-        //    this.shoppingService.AddToCart(item, shoppingCart);
-
-        //    var model = this.customerService.GetCustomerPanelModel();
-
-        //    model.ShoppingCart = shoppingCart;
-
-        //    this.HttpContext.Session.SetObjectAsJson(SessionKeys.Cart, shoppingCart);
-
-        //    return View("Panel", model);
-        //}
+            return View(model);
+        }
     }
 }
